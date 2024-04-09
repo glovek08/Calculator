@@ -6,7 +6,7 @@
     --calc-inner-bg: #242927;
     --calc-rim: #ada9a0;
     --calc-screen-bg: #171b1a;
-    --calc-text: #32c4ba;
+    --calc-text: #17f1f1;
 }
 
 *,
@@ -132,7 +132,7 @@ main {
     background: var(--calc-inner-bg);
     display: inherit;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
     flex-direction: column;
     outline: 1px solid red;
     width: 94%;
@@ -146,7 +146,6 @@ main {
     height: 150px;
     border-top-right-radius: 20px;
     border-top-left-radius: 20px;
-    margin-top: 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -155,4 +154,22 @@ main {
     text-shadow: 0px 0px 5px var(--calc-text);
     letter-spacing: 5px;
     font-size: 2em;
+}
+#calc-grill-container {
+    outline: 1px solid lime;
+    background: #222827;
+    width: 99%;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.calc-grill-bar {
+    height: 100%;
+    background: #191e1d;
+    width: 100%;
+    margin: 0 2px;
+}
+#calc-buttons-wrapper {
+    outline: 1px solid green;
 }
