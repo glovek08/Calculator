@@ -1,33 +1,39 @@
 :root {
     --body-bg: #67597A; /* english blue */
     --header-bg: #544E61; /* chinese blue */
+    --main-font: #F0F9F4; /* mint cream */
     --calc-frame-bg: #cac5b9;
     --calc-inner-bg: #242927;
     --calc-rim: #ada9a0;
     --calc-screen-bg: #171b1a;
     --calc-text: #32c4ba;
 }
-*, *::after, *::before {
+
+*,
+*::after,
+*::before {
     box-sizing: 0;
 }
+
 @font-face {
     font-family: DIGITAL;
     src: url("../Assets/digital-7\ \(mono\).ttf");
 }
+@font-face {
+    font-family: 'Josefin Sans';
+    src: url("../Assets/JosefinSans-VariableFont_wght.ttf");
+}
+
 img {
     display: block;
 }
+
 body {
     margin: 0;
-    padding: 0; 
+    padding: 0;
     background: var(--body-bg);
 }
-main {
-    background: var(--body-bg);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+
 header {
     min-width: calc(100dvw - 4q0px);
     background: var(--header-bg);
@@ -37,25 +43,58 @@ header {
     flex-direction: row;
     padding: 0 20px;
 }
+
 header nav {
     outline: 1px solid green;
 }
+
 header ul {
     border: 1px solid red;
     margin: 0;
     padding: 0;
 }
+
 li {
     list-style: none;
 }
+
 .nav-link {
     aspect-ratio: 1/1;
     width: 40px;
     padding: 10px;
     transition: transform .1s ease-in-out;
 }
+
 .nav-link:hover {
     transform: scale(1.2);
+}
+
+main {
+    background: var(--body-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+#calc-lore {
+    color: var(--main-font);
+    font-family: 'Josefin Sans', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    outline: 1px solid yellow;
+    min-height: calc(730px - 100px);
+    padding: 50px 10px;
+    max-width: 40%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    font-size: 1.3em;
+}
+#calc-lore h1 {
+
+}
+#calc-lore p {
+    margin: 5px;
+    text-align: justify;
 }
 #calc-container {
     outline: 1px solid red;
@@ -65,6 +104,7 @@ li {
     align-items: center;
     justify-content: center;
 }
+
 #calc-frame {
     display: inherit;
     align-items: center;
@@ -75,6 +115,7 @@ li {
     background: var(--calc-frame-bg);
     border-radius: 5px;
 }
+
 #calc-rim {
     background: var(--calc-rim);
     display: inherit;
@@ -86,6 +127,7 @@ li {
     border-radius: 30px;
 
 }
+
 #calc-inner {
     background: var(--calc-inner-bg);
     display: inherit;
@@ -97,6 +139,7 @@ li {
     height: 96%;
     border-radius: 20px;
 }
+
 #calc-screen {
     background: var(--calc-screen-bg);
     width: 99%;
@@ -110,5 +153,6 @@ li {
     color: var(--calc-text);
     font-family: DIGITAL, 'Courier New', Courier, monospace;
     text-shadow: 0px 0px 5px var(--calc-text);
+    letter-spacing: 5px;
     font-size: 2em;
 }
