@@ -4,6 +4,7 @@
     --main-font: #F0F9F4; /* mint cream */
     --calc-frame-bg: #cac5b9;
     --calc-inner-bg: #242927;
+    --calc-inner-rim: #363e3b;
     --calc-rim: #ada9a0;
     --calc-screen-bg: #171b1a;
     --calc-text: #17f1f1;
@@ -96,7 +97,7 @@ main {
     margin: 5px;
     text-align: justify;
 }
-#calc-container {
+#calculator {
     outline: 1px solid red;
     margin: 10px 20px;
     padding: 15px;
@@ -128,13 +129,14 @@ main {
 
 }
 
-#calc-inner {
+#calc-inner-rim {
     background: var(--calc-inner-bg);
     display: inherit;
     align-items: center;
     justify-content: flex-start;
     flex-direction: column;
     outline: 1px solid red;
+    border: 4px solid var(--calc-inner-rim);
     width: 94%;
     height: 96%;
     border-radius: 20px;
@@ -143,7 +145,7 @@ main {
 #calc-screen {
     background: var(--calc-screen-bg);
     width: 99%;
-    height: 150px;
+    min-height: 150px;
     border-top-right-radius: 20px;
     border-top-left-radius: 20px;
     display: flex;
@@ -170,6 +172,32 @@ main {
     width: 100%;
     margin: 0 2px;
 }
+#calc-badge-container{
+    outline: 1px solid blue;
+    height: 10%;
+    width: 99%;
+    margin: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--calc-screen-bg);
+    border-radius: 2px;
+}
+#calc-badge-inner {
+    outline: 1px solid var(--calc-inner-rim);
+    height: 80%;
+    width: 97.5%;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+#sanyo-badge {
+    outline: 1px solid blue;
+    margin-left: 20px;
+}
 #calc-buttons-wrapper {
     outline: 1px solid green;
+    height: 100%;
+    width: 99%;
 }
