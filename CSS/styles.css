@@ -1,9 +1,18 @@
 :root {
     --body-bg: #67597A; /* english blue */
     --header-bg: #544E61; /* chinese blue */
+    --calc-frame-bg: #cac5b9;
+    --calc-inner-bg: #242927;
+    --calc-rim: #ada9a0;
+    --calc-screen-bg: #171b1a;
+    --calc-text: #32c4ba;
 }
 *, *::after, *::before {
     box-sizing: 0;
+}
+@font-face {
+    font-family: DIGITAL;
+    src: url("../Assets/digital-7\ \(mono\).ttf");
 }
 img {
     display: block;
@@ -15,9 +24,12 @@ body {
 }
 main {
     background: var(--body-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 header {
-    min-width: calc(100dvw - 40px);
+    min-width: calc(100dvw - 4q0px);
     background: var(--header-bg);
     display: flex;
     align-items: center;
@@ -44,4 +56,59 @@ li {
 }
 .nav-link:hover {
     transform: scale(1.2);
+}
+#calc-container {
+    outline: 1px solid red;
+    margin: 10px 20px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#calc-frame {
+    display: inherit;
+    align-items: center;
+    justify-content: center;
+    outline: 1px solid green;
+    width: 400px;
+    height: 700px;
+    background: var(--calc-frame-bg);
+    border-radius: 5px;
+}
+#calc-rim {
+    background: var(--calc-rim);
+    display: inherit;
+    align-items: center;
+    justify-content: center;
+    outline: 1px solid blue;
+    width: 95%;
+    height: 93%;
+    border-radius: 30px;
+
+}
+#calc-inner {
+    background: var(--calc-inner-bg);
+    display: inherit;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+    outline: 1px solid red;
+    width: 94%;
+    height: 96%;
+    border-radius: 20px;
+}
+#calc-screen {
+    background: var(--calc-screen-bg);
+    width: 99%;
+    height: 150px;
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
+    margin-top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--calc-text);
+    font-family: DIGITAL, 'Courier New', Courier, monospace;
+    text-shadow: 0px 0px 5px var(--calc-text);
+    font-size: 2em;
 }
