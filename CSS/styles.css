@@ -30,6 +30,10 @@
     font-family: 'Roboto Condensed';
     src: url("../Assets/RobotoCondensed-VariableFont_wght.ttf");
 }
+@font-face {
+    font-family: 'Titillium Web';
+    src: url("../Assets/TitilliumWeb-SemiBold.ttf");
+}
 
 img {
     display: block;
@@ -97,7 +101,7 @@ main {
     font-size: 1.3em;
 }
 #calc-lore h1 {
-
+    
 }
 #calc-lore p {
     margin: 5px;
@@ -214,6 +218,7 @@ main {
     gap: 1px;
 }
 .button-function, .button-num {
+    max-height: 65px;
     padding: 10px;
     width: 80%;
     display: flex;
@@ -222,15 +227,16 @@ main {
     outline: 5px solid #1e2321;
     border-radius: 10px;
     font-size: 2em;
-    font-family: 'Roboto Condensed', Arial, Helvetica, sans-serif;
     font-weight: 400;
+    cursor: pointer;
 }
 .button-function {
     background: var(--calc-button-fn);
     border: 2px solid var(--calc-button-fn-border);
+    font-family: 'Roboto Condensed', Arial, Helvetica, sans-serif;
 }
 .button-num {
-
+    font-family: 'Titillium Web', 'Courier New', Courier, monospace;
 }
 #power-switch-container {
     grid-column: span 2;
