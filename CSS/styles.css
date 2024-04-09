@@ -8,6 +8,8 @@
     --calc-rim: #ada9a0;
     --calc-screen-bg: #171b1a;
     --calc-text: #17f1f1;
+    --calc-button-fn: #daa266;
+    --calc-button-fn-border:#efb87e;
 }
 
 *,
@@ -23,6 +25,10 @@
 @font-face {
     font-family: 'Josefin Sans';
     src: url("../Assets/JosefinSans-VariableFont_wght.ttf");
+}
+@font-face {
+    font-family: 'Roboto Condensed';
+    src: url("../Assets/RobotoCondensed-VariableFont_wght.ttf");
 }
 
 img {
@@ -199,5 +205,37 @@ main {
 #calc-buttons-wrapper {
     outline: 1px solid green;
     height: 100%;
-    width: 99%;
+    width: calc(99% - 20px);
+    padding: 10px;
+    display: grid; 
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    align-items: center;
+    place-items: center;
+    gap: 1px;
+}
+.button-function, .button-num {
+    padding: 10px;
+    width: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    outline: 5px solid #1e2321;
+    border-radius: 10px;
+    font-size: 2em;
+    font-family: 'Roboto Condensed', Arial, Helvetica, sans-serif;
+    font-weight: 400;
+}
+.button-function {
+    background: var(--calc-button-fn);
+    border: 2px solid var(--calc-button-fn-border);
+}
+.button-num {
+
+}
+#power-switch-container {
+    grid-column: span 2;
+    height: 50%;
+    background: var(--calc-inner-bg);
+    border: 2px solid var(--calc-screen-bg);
+    outline: none;
 }
