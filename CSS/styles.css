@@ -136,10 +136,10 @@ main {
     align-items: center;
     justify-content: center;
     outline: 1px solid blue;
-    width: 95%;
-    height: 93%;
-    border-radius: 30px;
-
+    width: 92%;
+    height: 90%;
+    border-radius: 27px;
+    border: 7px outset var(--calc-rim);
 }
 
 #calc-inner-rim {
@@ -150,8 +150,8 @@ main {
     flex-direction: column;
     outline: 1px solid red;
     border: 4px solid var(--calc-inner-rim);
-    width: 94%;
-    height: 96%;
+    width: 97%;
+    height: 98%;
     border-radius: 20px;
 }
 
@@ -208,6 +208,7 @@ main {
 #sanyo-badge {
     outline: 1px solid blue;
     margin-left: 20px;
+    padding: 5px 10px;
 }
 #calc-buttons-wrapper {
     outline: 1px solid green;
@@ -273,7 +274,8 @@ main {
     grid-column: span 2;
     height: 50%;
     background: var(--calc-inner-bg);
-    border: 2px solid var(--calc-screen-bg);
+    box-shadow: none;
+    border: 2px solid var(--calc-button-rim);
     outline: none;
     cursor: default;
 }
