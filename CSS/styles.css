@@ -155,24 +155,28 @@ main {
     border-radius: 20px;
 }
 
-#calc-screen {
+#calc-screen-container {
     background: var(--calc-screen-bg);
-    width: 315px;
-    height: 200px;
+    width: 99%;
+    height: 30%;
     overflow: hidden;
     border-top-right-radius: 20px;
     border-top-left-radius: 20px;
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    padding-right: 40px;
+    outline: 1px solid red;
+}
+#calc-screen {
+    max-width: 85%;
+    padding: 10px 30px 10px 10px;
+    outline: 1px solid yellow;
     color: var(--calc-text);
     font-family: DIGITAL, 'Courier New', Courier, monospace;
     font-weight: 800;
     text-shadow: 0px 0px 5px var(--calc-text);
     letter-spacing: 5px;
     font-size: 2em;
-    outline: 1px solid red;
 }
 #calc-grill-container {
     outline: 1px solid lime;
