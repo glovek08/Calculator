@@ -12,7 +12,7 @@
     --calc-button-fn-border:#98744d;
     --calc-button-num: #e6e4db;
     --calc-button-num-border: #b1b0a7;
-    --calc-button-rim: #1e2321;
+    --calc-button-rim: #1e2221;
 }
 
 *,
@@ -96,10 +96,10 @@ main {
     outline: 1px solid yellow;
     min-height: calc(730px - 100px);
     padding: 50px 10px;
-    max-width: 40%;
+    max-width: 600px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     flex-direction: column;
     font-size: 1.3em;
 }
@@ -107,7 +107,7 @@ main {
     
 }
 #calc-lore p {
-    margin: 5px;
+    margin: 10px 5px;
     text-align: justify;
 }
 #calculator {
@@ -142,7 +142,7 @@ main {
     border: 7px outset var(--calc-rim);
 }
 
-#calc-inner-rim {
+#calc-inner-container {
     background: var(--calc-inner-bg);
     display: inherit;
     align-items: center;
@@ -157,18 +157,22 @@ main {
 
 #calc-screen {
     background: var(--calc-screen-bg);
-    width: 99%;
-    min-height: 150px;
+    width: 315px;
+    height: 200px;
+    overflow: hidden;
     border-top-right-radius: 20px;
     border-top-left-radius: 20px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-end;
+    padding-right: 40px;
     color: var(--calc-text);
     font-family: DIGITAL, 'Courier New', Courier, monospace;
+    font-weight: 800;
     text-shadow: 0px 0px 5px var(--calc-text);
     letter-spacing: 5px;
     font-size: 2em;
+    outline: 1px solid red;
 }
 #calc-grill-container {
     outline: 1px solid lime;
@@ -234,41 +238,43 @@ main {
     font-size: 2em;
     font-weight: 400;
     cursor: pointer;
-    transition: border 100ms ease;
+    transition: border 40ms ease-out;
 }
 .button-function {
     font-family: 'Roboto Condensed', Arial, Helvetica, sans-serif;
     background: var(--calc-button-fn);
-    border-bottom: 4px solid var(--calc-button-fn-border);
+    border-bottom: 8px solid var(--calc-button-fn-border);
     border-right: 2px solid var(--calc-button-fn-border);
     border-left: 2px solid var(--calc-button-fn-border);
     border-top: none;
 }
 .button-function:hover:not(#power-switch-container) {
     background: #e7ae72;
+    outline: 2px solid rgb(232, 229, 191);
 }
 .button-function:active:not(#power-switch-container) {
-    border-bottom: none;
-    border-right: 1px solid var(--calc-button-rim);
-    border-left: 1px solid var(--calc-button-rim);
-    border-top: 4px solid var(--calc-button-rim);
+    border-bottom: 2px solid var(--calc-button-rim);
+    border-right: 2px solid var(--calc-button-rim);
+    border-left: 2px solid var(--calc-button-rim);
+    border-top: 2px solid var(--calc-button-rim);
 }
 .button-num {
     font-family: 'Titillium Web', 'Courier New', Courier, monospace;
     background: var(--calc-button-num);
-    border-bottom: 4px solid var(--calc-button-num-border);
+    border-bottom: 8px solid var(--calc-button-num-border);
     border-right: 2px solid var(--calc-button-num-border);
     border-left: 2px solid var(--calc-button-num-border);
     border-top: none;
 }
 .button-num:active {
-    border-bottom: none;
-    border-right: 1px solid var(--calc-button-rim);
-    border-left: 1px solid var(--calc-button-rim);
-    border-top: 4px solid var(--calc-button-rim);
+    border-bottom: 2px solid var(--calc-button-rim);
+    border-right: 2px solid var(--calc-button-rim);
+    border-left: 2px solid var(--calc-button-rim);
+    border-top: 2px solid var(--calc-button-rim);
 }
 .button-num:hover {
     background: #faf6f7;
+    outline: 2px solid rgb(248, 207, 142);
 }
 #power-switch-container {
     grid-column: span 2;
