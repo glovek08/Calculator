@@ -1,7 +1,7 @@
 
 /*
     User guide:
-    CA: Clear All, clears all entries and operations, essentially it resets the calculator.
+    CA: Clear All, clears all entries and operations, essentially it resets the calculator but keeps the history.
     CK: Clear Key, clear the last entry or the last digit entered on the display.
     RC: Used to recall a stored value from memory.
 */
@@ -11,13 +11,11 @@ const numButtons = document.querySelectorAll('.button-num');
 const functionButtons = document.querySelectorAll('.button-function');
 const calcScreen = document.querySelector('#calc-screen');
 
+
+let calculate = false;
 let firstInput = true;
 let expression = '';
-
-let mem = {
-    operand: [],
-    history: [],
-}
+let history = [];
 
 /* 
     the expression is stored in 'expression', when the user presses '='
@@ -26,6 +24,10 @@ let mem = {
     we could use a recurring function to check if the string contains each symbol. if it does,
     it calculates the operation between the two closest operands and then call itself to continue
     checking for symbol ocurrances.
+    Change in Paradigm: We were thinking of a logic to calculate a whole expression with various operators, but the project asks
+    for a calculator that operates within 2 operands, if an operator has already been pressed, we change the boolean value of 
+    'calculate' to true, so if another operators is pressed, the current expression is executed.
+    .
 */
 
 functionButtons.forEach(el => {
@@ -41,8 +43,40 @@ functionButtons.forEach(el => {
                 clearKey();
                 break;
             case 'mult-btn':
+                if (calculate) {
+                    computeExpression(expression);
+                    break;
+                }
+                expression += "x";
+                refreshScreen(expression);
+                calculate = true;
                 break;
-            case 'result-btn':
+            case 'div-btn':
+                if (calculate) {
+                    computeExpression(expression);
+                    break;
+                }
+                expression += "/";
+                refreshScreen(expression);
+                calculate = true;
+                break;
+            case 'subs-equal-btn':
+                if (calculate) {
+                    computeExpression(expression);
+                    break;
+                }
+                expression += "-";
+                refreshScreen(expression);
+                calculate = true;
+                break;
+            case 'add-equal-btn':
+                if (calculate) {
+                    computeExpression(expression);
+                    break;
+                }
+                expression += "+"
+                refreshScreen(expression);
+                calculate = true;
                 break;
             default:
                 refreshScreen('0');
@@ -52,28 +86,41 @@ functionButtons.forEach(el => {
 
 numButtons.forEach(el => {
     el.addEventListener('click', (event) => {
-        if (firstInput) calcScreen.textContent = '';
+        if (firstInput) refreshScreen('');
         firstInput = false;
         expression += event.target.value;
         refreshScreen(expression);
     })
 });
 
+const computeExpression = (currentExpression) => {
+    history.push(currentExpression);
+    let operands = [];
+    if (currentExpression.includes('x')) {
+        operands = currentExpression.split('x')
+        expression = operands.reduce((acc, el) => acc * el, 1);
+        console.log('Result: '+expression);
+        refreshScreen(expression);
+        calculate = false;
+    }
+}
+
+
 const clearKey = () => {
-    calcScreen.textContent = calcScreen.textContent.slice(0, -1);
+    expression = expression.toString();
     expression = expression.slice(0, -1);
+    if (expression === '') expression = 0;
+    refreshScreen(expression);
     firstInput = true;
 }
-const multiply = (operand1, operand2) => {
-    return operand1 * operand2;
-}
+
 const refreshScreen = (contentToDisplay) => { /* Implement a way to always display 0*/
     calcScreen.textContent = contentToDisplay;
 }
 const clearAll = () => {
+    calculate = false;
     firstInput = true;
     expression = '';
-    mem.history = [];
-    mem.operand = [];
+    operands = [];
     calcScreen.textContent = '0';
 };
