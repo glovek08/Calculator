@@ -13,6 +13,7 @@ const calcScreen = document.querySelector('#calc-screen');
 
 let inputValue = 0;
 let expression = [];
+let memory = [];
 let secondPass = false;
 let functionType = '';
 
@@ -46,8 +47,23 @@ functionButtons.forEach(element => {
                 inputValue = 0;
                 secondPass = true;
                 functionType = 'multiplication';
+                refreshScreen(0);
                 break;
-            case 'subs-equal-btn':
+            case 'div-btn': 
+            if (secondPass) {
+                expression.push(inputValue);
+                computeExpression(functionType, expression);
+                refreshScreen(inputValue);
+                expression = [];
+                secondPass = false;
+                break;
+            };
+            expression.push(inputValue);
+            inputValue = 0;
+            secondPass = true;
+            functionType = 'division';
+            break;
+            case 'subs-rslt-btn':
                 if (secondPass) {
                     expression.push(inputValue);
                     computeExpression(functionType, expression);
@@ -61,7 +77,7 @@ functionButtons.forEach(element => {
                 secondPass = true;
                 functionType = 'subtraction';
                 break;
-            case 'add-equal-btn':
+            case 'add-rslt-btn':
                 if (secondPass) {
                     expression.push(inputValue);
                     computeExpression(functionType, expression);
@@ -75,6 +91,10 @@ functionButtons.forEach(element => {
                 secondPass = true;
                 functionType = 'addition';
                 break;
+            case 'recall-btn':
+                inputValue = memory.pop();
+                refreshScreen(inputValue);
+                
         }
     });
 });
@@ -97,19 +117,32 @@ const computeExpression = (expressionType, expressionArray) => {
             break;
     }
 }
+
 const multiply = (expression) => {
-    inputValue = expression.reduce((acc, el) => acc * el, 1).toFixed(2);
+    inputValue = expression.reduce((acc, el) => parseFloat(acc) * parseFloat(el), 1);
+    console.log("Multiplication result: "+inputValue);
+    memory.push(inputValue.toFixed(2));
 }
-const add = (expression) => {
-    inputValue = expression.reduce((acc, el) => acc + el, 0).toFixed(2);
+const divide = (expression) => {
+    inputValue = expression.reduce((acc, el) => parseFloat(acc) / parseFloat(el));
+    console.log("Division result: "+inputValue);
+    memory.push(inputValue.toFixed(2));
 }
 const subtract = (expression) => {
-    inputValue = expression.reduce((acc, el) => acc - el).toFixed(2);
+    inputValue = expression.reduce((acc, el) => parseFloat(acc) - parseFloat(el));
+    console.log("Subtraction result: "+inputValue);
+    memory.push(inputValue.toFixed(2));
 }
+const add = (expression) => {
+    inputValue = expression.reduce((acc, el) => parseFloat(acc) + parseFloat(el), 0);
+    console.log("Addition result: "+inputValue);
+    memory.push(inputValue.toFixed(2));
+}
+
 
 const refreshScreen = (content) => {
     if (!content) content = 0;
-    else if (content.toString().length > 7) {
+    else if (parseFloat(content).toFixed(2).toString().length > 8) {
         clearAll();
         calcScreen.textContent = 'MAX LENGTH';
         return;
@@ -118,7 +151,9 @@ const refreshScreen = (content) => {
 }
 
 const clearKey = () => {
+    inputValue = inputValue.toString();
     inputValue = inputValue.slice(0, -1);
+    inputValue = parseFloat(inputValue);
     refreshScreen(inputValue);
     return;
 }
