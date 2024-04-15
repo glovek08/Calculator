@@ -4,6 +4,7 @@
     --header-bg: #544E61;
     /* chinese blue */
     --main-font: #F0F9F4;
+    --text-anchor: #9ddce0;
     /* mint cream */
     --calc-frame-bg: #cac5b9;
     --calc-inner-bg: #242927;
@@ -64,12 +65,8 @@ header {
     padding: 0 20px;
 }
 
-header nav {
-    outline: 1px solid green;
-}
 
 header ul {
-    border: 1px solid red;
     margin: 0;
     padding: 0;
 }
@@ -95,12 +92,12 @@ main {
     align-items: flex-start;
     justify-content: center;
     flex-wrap: wrap;
+    margin-top: 50px;
 }
 
 #calc-lore {
     color: var(--main-font);
     font-family: 'Josefin Sans', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    outline: 1px solid yellow;
     min-height: calc(730px - 100px);
     padding: 50px 10px;
     max-width: 600px;
@@ -111,15 +108,18 @@ main {
     font-size: 1.3em;
 }
 
-#calc-lore h1 {}
 
 #calc-lore p {
     margin: 10px 5px;
     text-align: justify;
 }
-
+#calc-lore a {
+    color: var(--text-anchor);
+}
+#calc-lore a:hover {
+    color: rgb(85, 244, 125);
+}
 #calculator {
-    outline: 1px solid red;
     margin: 10px 20px;
     padding: 15px;
     display: flex;
@@ -131,7 +131,6 @@ main {
     display: inherit;
     align-items: center;
     justify-content: center;
-    outline: 1px solid green;
     width: 350px;
     height: 600px;
     background: var(--calc-frame-bg);
@@ -143,7 +142,6 @@ main {
     display: inherit;
     align-items: center;
     justify-content: center;
-    outline: 1px solid blue;
     width: 92%;
     height: 90%;
     border-radius: 27px;
@@ -156,7 +154,6 @@ main {
     align-items: center;
     justify-content: flex-start;
     flex-direction: column;
-    outline: 1px solid red;
     border: 4px solid var(--calc-inner-rim);
     width: 97%;
     height: 98%;
@@ -173,7 +170,6 @@ main {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    outline: 1px solid red;
 }
 
 #calc-screen {
@@ -182,7 +178,6 @@ main {
     text-wrap: nowrap;
     overflow: hidden;
     padding: 10px 20px 10px 10px;
-    outline: 1px solid yellow;
     color: var(--calc-text);
     font-family: DIGITAL, 'Courier New', Courier, monospace;
     font-weight: 100;
@@ -194,7 +189,6 @@ main {
 }
 
 #calc-grill-container {
-    outline: 1px solid lime;
     background: #222827;
     width: 99%;
     height: 60px;
@@ -211,7 +205,6 @@ main {
 }
 
 #calc-badge-container {
-    outline: 1px solid blue;
     height: 10%;
     width: 99%;
     margin: 5px;
@@ -233,13 +226,11 @@ main {
 }
 
 #sanyo-badge {
-    outline: 1px solid blue;
     margin-left: 20px;
     padding: 5px 10px;
 }
 
 #calc-buttons-wrapper {
-    outline: 1px solid green;
     height: 100%;
     width: calc(99% - 20px);
     padding: 10px;
@@ -351,4 +342,32 @@ main {
     position: relative;
     top: -4px;
     left: -9px;
+}
+footer {
+    color: var(--calc-screen-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 20px;
+}
+#vertical-bar {
+    content: '';
+    width: 1.5px;
+    height: 5em;
+    background: var(--calc-button-rim);
+    margin: 0 20px;
+}
+footer p {
+    margin: 0;
+}
+footer a {
+    color: inherit;
+}
+footer ul {
+    margin: 0;
+    padding: 0;
+}
+footer ul li {
+    padding-left: 20px;
 }
