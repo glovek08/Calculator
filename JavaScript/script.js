@@ -11,116 +11,122 @@ const numButtons = document.querySelectorAll('.button-num');
 const functionButtons = document.querySelectorAll('.button-function');
 const calcScreen = document.querySelector('#calc-screen');
 
+let inputValue = 0;
+let expression = [];
+let secondPass = false;
+let functionType = '';
 
-let calculate = false;
-let firstInput = true;
-let expression = '';
-let history = [];
+numButtons.forEach(element => {
+    element.addEventListener('click', event => {
+        inputValue += event.target.value;
+        refreshScreen(inputValue);
+    });
+});
 
-/* 
-    the expression is stored in 'expression', when the user presses '='
-    the string is split into 'operand' using a regex that catches the symbols /+*-/n/,
-    using an if we call the operator function depending on which regex gets triggered. 
-    we could use a recurring function to check if the string contains each symbol. if it does,
-    it calculates the operation between the two closest operands and then call itself to continue
-    checking for symbol ocurrances.
-    Change in Paradigm: We were thinking of a logic to calculate a whole expression with various operators, but the project asks
-    for a calculator that operates within 2 operands, if an operator has already been pressed, we change the boolean value of 
-    'calculate' to true, so if another operators is pressed, the current expression is executed.
-    .
-*/
-
-functionButtons.forEach(el => {
-    el.addEventListener('click', (event) => {
-        console.log(event.target.id);
-        switch (event.target.id) {
-            case 'clear-all-btn':
-                if (calcScreen.textContent === '0') break;
+functionButtons.forEach(element => {
+    element.addEventListener('click', event => {
+        let buttonPressed = event.target.id;
+        switch (buttonPressed) {
+            case 'clear-all-btn': 
                 clearAll();
                 break;
             case 'clear-key-btn':
-                if (calcScreen.textContent === '0') break;
                 clearKey();
                 break;
             case 'mult-btn':
-                if (calculate) {
-                    computeExpression(expression);
+                if (secondPass) {
+                    expression.push(inputValue);
+                    computeExpression(functionType, expression);
+                    refreshScreen(inputValue);
+                    expression = [];
+                    secondPass = false;
                     break;
-                }
-                expression += "x";
-                refreshScreen(expression);
-                calculate = true;
-                break;
-            case 'div-btn':
-                if (calculate) {
-                    computeExpression(expression);
-                    break;
-                }
-                expression += "/";
-                refreshScreen(expression);
-                calculate = true;
+                };
+                expression.push(inputValue);
+                inputValue = 0;
+                secondPass = true;
+                functionType = 'multiplication';
                 break;
             case 'subs-equal-btn':
-                if (calculate) {
-                    computeExpression(expression);
+                if (secondPass) {
+                    expression.push(inputValue);
+                    computeExpression(functionType, expression);
+                    refreshScreen(inputValue);
+                    expression = [];
+                    secondPass = false;
                     break;
-                }
-                expression += "-";
-                refreshScreen(expression);
-                calculate = true;
+                };
+                expression.push(inputValue);
+                inputValue = 0;
+                secondPass = true;
+                functionType = 'subtraction';
                 break;
             case 'add-equal-btn':
-                if (calculate) {
-                    computeExpression(expression);
+                if (secondPass) {
+                    expression.push(inputValue);
+                    computeExpression(functionType, expression);
+                    refreshScreen(inputValue);
+                    expression = [];
+                    secondPass = false;
                     break;
-                }
-                expression += "+"
-                refreshScreen(expression);
-                calculate = true;
+                };
+                expression.push(inputValue);
+                inputValue = 0;
+                secondPass = true;
+                functionType = 'addition';
                 break;
-            default:
-                refreshScreen('0');
         }
-    })
+    });
 });
 
-numButtons.forEach(el => {
-    el.addEventListener('click', (event) => {
-        if (firstInput) refreshScreen('');
-        firstInput = false;
-        expression += event.target.value;
-        refreshScreen(expression);
-    })
-});
+// **********************  FUNCTIONS REALM **********************
 
-const computeExpression = (currentExpression) => {
-    history.push(currentExpression);
-    let operands = [];
-    if (currentExpression.includes('x')) {
-        operands = currentExpression.split('x')
-        expression = operands.reduce((acc, el) => acc * el, 1);
-        console.log('Result: '+expression);
-        refreshScreen(expression);
-        calculate = false;
+const computeExpression = (expressionType, expressionArray) => {
+    switch (expressionType) {
+        case 'multiplication':
+            multiply(expressionArray);
+            break;
+        case 'division':
+            divide(expressionArray);
+            break;
+        case 'subtraction': 
+            subtract(expressionArray);
+            break;
+        case 'addition':
+            add(expressionArray);
+            break;
     }
 }
+const multiply = (expression) => {
+    inputValue = expression.reduce((acc, el) => acc * el, 1).toFixed(2);
+}
+const add = (expression) => {
+    inputValue = expression.reduce((acc, el) => acc + el, 0).toFixed(2);
+}
+const subtract = (expression) => {
+    inputValue = expression.reduce((acc, el) => acc - el).toFixed(2);
+}
 
+const refreshScreen = (content) => {
+    if (!content) content = 0;
+    else if (content.toString().length > 7) {
+        clearAll();
+        calcScreen.textContent = 'MAX LENGTH';
+        return;
+    } 
+    calcScreen.textContent = parseFloat(content).toFixed(2);
+}
 
 const clearKey = () => {
-    expression = expression.toString();
-    expression = expression.slice(0, -1);
-    if (expression === '') expression = 0;
-    refreshScreen(expression);
-    firstInput = true;
+    inputValue = inputValue.slice(0, -1);
+    refreshScreen(inputValue);
+    return;
 }
 
-const refreshScreen = (contentToDisplay) => { /* Implement a way to always display 0*/
-    calcScreen.textContent = contentToDisplay;
-}
 const clearAll = () => {
-    calculate = false;
-    firstInput = true;
-    expression = '';
-    operands = [];
-    calcScreen.textContent = '0';
-};
+    refreshScreen('0');
+    inputValue = 0;
+    expression = [];
+    secondPass = false;
+    return;
+}
