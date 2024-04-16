@@ -17,14 +17,12 @@ const calcScreen = document.querySelector('#calc-screen');
 let inputValue = 0;
 let expression = [];
 let memory = [0];
-let isNegative = false; /* if the subtraction button is the first button to be pressed, 
-                            secondPass is false and inputValue is 0,
-                            this gets toggled, then we add '-' to the inputValue.
-*/
+let isNegative = false;
 let secondPass = false; //This is toggled once the user presses a function button to trigger the function calling.
 let thirdPass = false; /*This is toggled when an operation has been processed and the user inputs a number
                         to reset the calculator screen and inputValue back to 0 ready for the next operand.*/
 let functionType = '';
+let lastButtonPressed = '';
 
 
 numButtons.forEach(element => {
@@ -39,15 +37,19 @@ numButtons.forEach(element => {
         }
         inputValue += event.target.value;
         refreshScreen(inputValue);
+        lastButtonPressed = '';
     });
 });
-
 
 /* TODO: Control that the user cannot press two function buttons in  sequence */
 
 functionButtons.forEach(element => {
     element.addEventListener('click', event => {
         let buttonPressed = event.target.id;
+        if (buttonPressed === lastButtonPressed) {
+            console.log('Already Pressed: '+buttonPressed);
+            return;
+        }
         switch (buttonPressed) {
             case 'clear-all-btn':
                 clearAll();
@@ -66,6 +68,7 @@ functionButtons.forEach(element => {
                 refreshScreen(inputValue);
                 break;
             case 'mult-btn':
+                lastButtonPressed = buttonPressed;
                 if (secondPass) {
                     expression.push(inputValue);
                     computeExpression(functionType, expression);
@@ -83,6 +86,7 @@ functionButtons.forEach(element => {
                 calcScreen.textContent = '*';
                 break;
             case 'div-btn':
+                lastButtonPressed = buttonPressed;
                 if (secondPass) {
                     expression.push(inputValue);
                     computeExpression(functionType, expression);
@@ -100,11 +104,7 @@ functionButtons.forEach(element => {
                 calcScreen.textContent = '÷';
                 break;
             case 'subs-rslt-btn':
-                if(secondPass === false && inputValue === 0) {
-                    inputValue += '-';
-                    isNegative = true;
-                    return;
-                }
+                lastButtonPressed = buttonPressed;
                 if (secondPass) {
                     expression.push(inputValue);
                     computeExpression(functionType, expression);
@@ -112,6 +112,7 @@ functionButtons.forEach(element => {
                     expression = [];
                     secondPass = false;
                     thirdPass = true;
+                    isNegative = false;
                     break;
                 };
                 expression.push(inputValue);
@@ -122,6 +123,7 @@ functionButtons.forEach(element => {
                 calcScreen.textContent = '-';
                 break;
             case 'add-rslt-btn':
+                lastButtonPressed = buttonPressed;
                 if (secondPass) {
                     expression.push(inputValue);
                     computeExpression(functionType, expression);
@@ -142,9 +144,14 @@ functionButtons.forEach(element => {
     });
 });
 
+
+
+// Function to toggle the sign of the current number
+
 // **********************  FUNCTIONS REALM **********************
 
 const computeExpression = (expressionType, expressionArray) => {
+    lastButtonPressed = ''
     switch (expressionType) {
         case 'multiplication':
             multiply(expressionArray);
@@ -207,11 +214,17 @@ const clearKey = () => {
     refreshScreen(inputValue); // Refresh the display
 }
 
+const negativeValue = () => {
+    inputValue *= -1;
+    refreshScreen(inputValue);
+};
+
 const clearAll = () => {
     refreshScreen('0');
     inputValue = 0;
     expression = [];
     secondPass = false;
     thirdPass = false;
+    lastButtonPressed = '';
     return;
 }
