@@ -347,7 +347,7 @@ main {
 }
 footer {
     margin-bottom: 0;
-    color: var(--calc-screen-bg);
+    color: var(--main-font);
     display: flex;
     align-items: center;
     justify-content: center;
