@@ -17,8 +17,6 @@ let inputValue = 0;
 let expression = [];
 let memory = [0];
 //memory: stores the history of calculation results so they can be recalled.
-let isNegative = false;
-//isNegative: will be used to switch the NEG LED on/off.
 let secondPass = false;
 //SecondPass: This is toggled once the user presses a function button to trigger the function calling.
 let thirdPass = false;
@@ -26,7 +24,10 @@ let thirdPass = false;
 to reset the calculator screen and inputValue back to 0 ready for the next operand.*/
 let functionType = '';
 let lastButtonPressed = '';
-
+let isOverflow = false;
+//isOverflow: Gets triggered when the displayed text is longer than 8 characters, used for the OVF led, class: led-active
+let isNegative = false;
+//isNegative: Used to allow input of negative numbers, will also be used to switch the NEG led on/off.
 
 numButtons.forEach(element => {
     element.addEventListener('click', event => {
@@ -89,11 +90,17 @@ functionButtons.forEach(element => {
                 secondPass = true;
                 functionType = 'multiplication';
                 refreshScreen(0);
-                calcScreen.textContent = '*';
+                calcScreen.textContent = 'x';
                 break;
             case 'div-btn':
                 lastButtonPressed = buttonPressed;
                 if (secondPass) {
+                    console.log('entered');
+                    if (inputValue == 0) {
+                        console.warn("Can't divide by 0");
+                        clearAll();
+                        return;
+                    }
                     expression.push(inputValue);
                     computeExpression(functionType, expression);
                     refreshScreen(inputValue);
