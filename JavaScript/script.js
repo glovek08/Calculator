@@ -212,6 +212,12 @@ const divide = (expression) => {
     })
     console.log("Division result: " + inputValue);
     if (!isNaN(inputValue)) {
+        if (inputValue < 0) {
+            negLed.classList.add('led-active');
+            console.log('negLed Activated');
+        } else {
+            negLed.classList.remove('led-active');
+        }
         memory.push(inputValue);
     };
 };
@@ -220,6 +226,12 @@ const subtract = (expression) => {
     inputValue = expression.reduce((acc, el) => parseFloat(acc) - parseFloat(el));
     console.log("Subtraction result: " + inputValue);
     if (!isNaN(inputValue)) {
+        if (inputValue < 0) {
+            negLed.classList.add('led-active');
+            console.log('negLed Activated');
+        } else {
+            negLed.classList.remove('led-active');
+        }
         memory.push(inputValue);
     };
 };
@@ -228,6 +240,12 @@ const add = (expression) => {
     inputValue = expression.reduce((acc, el) => parseFloat(acc) + parseFloat(el), 0);
     console.log("Addition result: " + inputValue);
     if (!isNaN(inputValue)) {
+        if (inputValue < 0) {
+            negLed.classList.add('led-active');
+            console.log('negLed Activated');
+        } else {
+            negLed.classList.remove('led-active');
+        }
         memory.push(inputValue);
     };
 };
