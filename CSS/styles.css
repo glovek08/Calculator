@@ -24,7 +24,7 @@
 *::before {
     box-sizing: 0;
 }
-
+/* CONVERT THE FONTS TO WOFF2 AND ADD A CALLBACK WOFF */
 @font-face {
     font-family: DIGITAL;
     src: url("../Assets/digital-7\ \(mono\).ttf");
@@ -136,7 +136,7 @@ main {
     align-items: center;
     justify-content: center;
     width: 350px;
-    height: 600px;
+    height: 650px;
     background: var(--calc-frame-bg);
     border-radius: 5px;
 }
@@ -147,7 +147,7 @@ main {
     align-items: center;
     justify-content: center;
     width: 92%;
-    height: 90%;
+    height: 93%;
     border-radius: 27px;
     border: 7px outset var(--calc-rim);
 }

@@ -12,6 +12,8 @@
 const numButtons = document.querySelectorAll('.button-num');
 const functionButtons = document.querySelectorAll('.button-function');
 const calcScreen = document.querySelector('#calc-screen');
+const negLed = document.querySelector('#neg-led');
+const ovfLed = document.querySelector('#ovf-led');
 
 let inputValue = 0;
 let expression = [];
@@ -42,7 +44,6 @@ numButtons.forEach(element => {
         if (isNegative) {
             inputValue = '-' + inputValue;
             isNegative = false;
-            console.log('isNegative triggered');
         }
         inputValue += event.target.value;
         refreshScreen(inputValue);
@@ -71,7 +72,7 @@ functionButtons.forEach(element => {
                     memory = [0];
                     break;
                 }
-                inputValue = memory.splice(-2, 1); //Gets the second to last and deletes the last.
+                inputValue = memory.splice(-2, 1);
                 refreshScreen(inputValue);
                 break;
             case 'mult-btn':
@@ -116,7 +117,8 @@ functionButtons.forEach(element => {
                 refreshScreen(0);
                 calcScreen.textContent = '÷';
                 break;
-            case 'subs-rslt-btn':
+            case 'subs-rslt-btn': 
+            //TODO: Allow second operand to be negative.
                 lastButtonPressed = buttonPressed;
                 if (calcScreen.textContent === 0.00 || calcScreen.textContent === '0.00') {
                     isNegative = true;
@@ -165,9 +167,6 @@ functionButtons.forEach(element => {
 });
 
 
-
-// Function to toggle the sign of the current number
-
 // **********************  FUNCTIONS REALM **********************
 
 const computeExpression = (expressionType, expressionArray) => {
@@ -192,12 +191,25 @@ const multiply = (expression) => {
     inputValue = expression.reduce((acc, el) => parseFloat(acc) * parseFloat(el), 1);
     console.log("Multiplication result: " + inputValue);
     if (!isNaN(inputValue)) {
+        if (inputValue < 0) {
+            negLed.classList.add('led-active');
+            console.log('negLed Activated');
+        } else {
+            negLed.classList.remove('led-active');
+        }
         memory.push(inputValue);
     };
 };
 
 const divide = (expression) => {
-    inputValue = expression.reduce((acc, el) => parseFloat(acc) / parseFloat(el));
+    inputValue = expression.reduce((acc, el) => {
+        let denominator = parseFloat(el);
+        if (denominator === 0) {
+            console.warn("Can't divide by 0");
+            denominator = 1;
+        }
+        return parseFloat(acc) / denominator;
+    })
     console.log("Division result: " + inputValue);
     if (!isNaN(inputValue)) {
         memory.push(inputValue);
@@ -225,10 +237,12 @@ const refreshScreen = (content) => {
     if (!content) content = 0;
     const formattedNumber = parseFloat(content).toFixed(2);
     if (formattedNumber.length > 8) {
+        ovfLed.classList.add('led-active');
         const truncatedNumber = formattedNumber.slice(0, 8);
         calcScreen.textContent = truncatedNumber;
     } else {
         calcScreen.textContent = formattedNumber;
+        ovfLed.classList.remove('led-active');
     };
 };
 
@@ -239,7 +253,7 @@ const clearKey = () => {
     } else {
         inputValue = parseFloat(inputValueString.slice(0, -1));
     }
-    refreshScreen(inputValue); // Refresh the display
+    refreshScreen(inputValue);
 };
 
 const clearAll = () => {
@@ -250,6 +264,8 @@ const clearAll = () => {
     thirdPass = false;
     lastButtonPressed = '';
     isNegative = false;
+    negLed.classList.remove('led-active');
+    ovfLed.classList.remove('led-active'); //This is not needed but leave it for redundancy.
     return;
     /*  memory should not be erased, this might be a fail, yet the original calculator didn't erase the memory.
         all calculation were kept phisically and that's how they managed to kept a record of past calculations without memory chips.
