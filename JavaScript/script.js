@@ -9,7 +9,6 @@
               for repetitive calculations.
 */
 
-
 const numButtons = document.querySelectorAll('.button-num');
 const functionButtons = document.querySelectorAll('.button-function');
 const calcScreen = document.querySelector('#calc-screen');
@@ -17,10 +16,14 @@ const calcScreen = document.querySelector('#calc-screen');
 let inputValue = 0;
 let expression = [];
 let memory = [0];
+//memory: stores the history of calculation results so they can be recalled.
 let isNegative = false;
-let secondPass = false; //This is toggled once the user presses a function button to trigger the function calling.
-let thirdPass = false; /*This is toggled when an operation has been processed and the user inputs a number
-                        to reset the calculator screen and inputValue back to 0 ready for the next operand.*/
+//isNegative: will be used to switch the NEG LED on/off.
+let secondPass = false;
+//SecondPass: This is toggled once the user presses a function button to trigger the function calling.
+let thirdPass = false;
+/*thirdPass: This is toggled when an operation has been processed and the user inputs a number
+to reset the calculator screen and inputValue back to 0 ready for the next operand.*/
 let functionType = '';
 let lastButtonPressed = '';
 
@@ -35,19 +38,22 @@ numButtons.forEach(element => {
         if (event.target.id === 'dot-btn' && inputValue.toString().includes('.')) {
             return;
         }
+        if (isNegative) {
+            inputValue = '-' + inputValue;
+            isNegative = false;
+            console.log('isNegative triggered');
+        }
         inputValue += event.target.value;
         refreshScreen(inputValue);
         lastButtonPressed = '';
     });
 });
 
-/* TODO: Control that the user cannot press two function buttons in  sequence */
-
 functionButtons.forEach(element => {
     element.addEventListener('click', event => {
         let buttonPressed = event.target.id;
         if (buttonPressed === lastButtonPressed) {
-            console.log('Already Pressed: '+buttonPressed);
+            console.warn('Already Pressed: ' + buttonPressed);
             return;
         }
         switch (buttonPressed) {
@@ -77,7 +83,7 @@ functionButtons.forEach(element => {
                     secondPass = false;
                     thirdPass = true;
                     break;
-                };
+                }
                 expression.push(inputValue);
                 inputValue = 0;
                 secondPass = true;
@@ -95,7 +101,7 @@ functionButtons.forEach(element => {
                     secondPass = false;
                     thirdPass = true;
                     break;
-                };
+                }
                 expression.push(inputValue);
                 inputValue = 0;
                 secondPass = true;
@@ -105,6 +111,10 @@ functionButtons.forEach(element => {
                 break;
             case 'subs-rslt-btn':
                 lastButtonPressed = buttonPressed;
+                if (calcScreen.textContent === 0.00 || calcScreen.textContent === '0.00') {
+                    isNegative = true;
+                    calcScreen.textContent = '-' + calcScreen.textContent;
+                }
                 if (secondPass) {
                     expression.push(inputValue);
                     computeExpression(functionType, expression);
@@ -112,15 +122,17 @@ functionButtons.forEach(element => {
                     expression = [];
                     secondPass = false;
                     thirdPass = true;
-                    isNegative = false;
                     break;
-                };
-                expression.push(inputValue);
-                inputValue = 0;
-                secondPass = true;
-                functionType = 'subtraction';
-                refreshScreen(0);
-                calcScreen.textContent = '-';
+                }
+                if (!isNegative) {
+                    expression.push(inputValue);
+                    inputValue = 0;
+                    secondPass = true;
+                    functionType = 'subtraction';
+                    refreshScreen(0);
+                    calcScreen.textContent = '-';
+                }
+                console.log(`Reached end of 1st with: inputValue=${inputValue}, expression=${expression}, isNegative=${isNegative}`);
                 break;
             case 'add-rslt-btn':
                 lastButtonPressed = buttonPressed;
@@ -140,8 +152,9 @@ functionButtons.forEach(element => {
                 refreshScreen(0);
                 calcScreen.textContent = '+';
                 break;
+            };
         }
-    });
+    );
 });
 
 
@@ -165,34 +178,43 @@ const computeExpression = (expressionType, expressionArray) => {
         case 'addition':
             add(expressionArray);
             break;
-    }
-}
+    };
+};
 //I'm using an array so that in the future the calculator can be upgraded to hadle more than two operands and expression evaluation.
 const multiply = (expression) => {
     inputValue = expression.reduce((acc, el) => parseFloat(acc) * parseFloat(el), 1);
     console.log("Multiplication result: " + inputValue);
-    memory.push(inputValue);
-}
+    if (!isNaN(inputValue)) {
+        memory.push(inputValue);
+    };
+};
 
 const divide = (expression) => {
     inputValue = expression.reduce((acc, el) => parseFloat(acc) / parseFloat(el));
     console.log("Division result: " + inputValue);
-    memory.push(inputValue);
-}
+    if (!isNaN(inputValue)) {
+        memory.push(inputValue);
+    };
+};
 
 const subtract = (expression) => {
     inputValue = expression.reduce((acc, el) => parseFloat(acc) - parseFloat(el));
     console.log("Subtraction result: " + inputValue);
-    memory.push(inputValue);
-}
+    if (!isNaN(inputValue)) {
+        memory.push(inputValue);
+    };
+};
 
 const add = (expression) => {
     inputValue = expression.reduce((acc, el) => parseFloat(acc) + parseFloat(el), 0);
     console.log("Addition result: " + inputValue);
-    memory.push(inputValue);
-}
+    if (!isNaN(inputValue)) {
+        memory.push(inputValue);
+    };
+};
 
 const refreshScreen = (content) => {
+    //TODO: When the user enters a decimal, allow it to be more than 2 digits.
     if (!content) content = 0;
     const formattedNumber = parseFloat(content).toFixed(2);
     if (formattedNumber.length > 8) {
@@ -200,8 +222,8 @@ const refreshScreen = (content) => {
         calcScreen.textContent = truncatedNumber;
     } else {
         calcScreen.textContent = formattedNumber;
-    }
-}
+    };
+};
 
 const clearKey = () => {
     let inputValueString = inputValue.toString();
@@ -210,13 +232,7 @@ const clearKey = () => {
     } else {
         inputValue = parseFloat(inputValueString.slice(0, -1));
     }
-
     refreshScreen(inputValue); // Refresh the display
-}
-
-const negativeValue = () => {
-    inputValue *= -1;
-    refreshScreen(inputValue);
 };
 
 const clearAll = () => {
@@ -226,5 +242,9 @@ const clearAll = () => {
     secondPass = false;
     thirdPass = false;
     lastButtonPressed = '';
+    isNegative = false;
     return;
-}
+    /*  memory should not be erased, this might be a fail, yet the original calculator didn't erase the memory.
+        all calculation were kept phisically and that's how they managed to kept a record of past calculations without memory chips.
+    */
+};
