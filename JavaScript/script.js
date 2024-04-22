@@ -118,7 +118,7 @@ functionButtons.forEach(element => {
                 calcScreen.textContent = '÷';
                 break;
             case 'subs-rslt-btn': 
-            //TODO: Allow second operand to be negative.
+            //TODO: Allow second operand to be negative for multiplication and divion.
                 lastButtonPressed = buttonPressed;
                 if (calcScreen.textContent === 0.00 || calcScreen.textContent === '0.00') {
                     isNegative = true;
@@ -141,7 +141,6 @@ functionButtons.forEach(element => {
                     refreshScreen(0);
                     calcScreen.textContent = '-';
                 }
-                console.log(`Reached end of 1st with: inputValue=${inputValue}, expression=${expression}, isNegative=${isNegative}`);
                 break;
             case 'add-rslt-btn':
                 lastButtonPressed = buttonPressed;

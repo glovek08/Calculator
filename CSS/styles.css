@@ -27,22 +27,30 @@
 /* CONVERT THE FONTS TO WOFF2 AND ADD A CALLBACK WOFF */
 @font-face {
     font-family: DIGITAL;
-    src: url("../Assets/digital-7\ \(mono\).ttf");
+    src: url("../Assets/fonts/woff2/digital-7\ \(mono\).woff2") format("woff2"),
+        url("../Assets/fonts/woff/digital-7\ \(mono\).woff") format("woff"),
+        url("../Assets/fonts/ttf/digital-7\ \(mono\).ttf") format("ttf");
 }
 
 @font-face {
     font-family: 'Josefin Sans';
-    src: url("../Assets/JosefinSans-VariableFont_wght.ttf");
+    src: url("../Assets/fonts/woff2/JosefinSans-VariableFont_wght.woff2") format("woff2"),
+    url("../Assets/fonts/woff/JosefinSans-VariableFont_wght.woff") format("woff"),
+    url("../Assets/fonts/ttf/JosefinSans-VariableFont_wght.ttf") format("ttf");
 }
 
 @font-face {
     font-family: 'Roboto Condensed';
-    src: url("../Assets/RobotoCondensed-VariableFont_wght.ttf");
+    src: url("../Assets/fonts/woff2/RobotoCondensed-VariableFont_wght.woff2") format("woff2"),
+        url("../Assets/fonts/woff/RobotoCondensed-VariableFont_wght.woff") format("woff"),
+        url("../Assets/fonts/ttf/RobotoCondensed-VariableFont_wght.ttf") format("ttf");
 }
 
 @font-face {
     font-family: 'Titillium Web';
-    src: url("../Assets/TitilliumWeb-SemiBold.ttf");
+    src: url("../Assets/fonts/woff2/TitilliumWeb-SemiBold.woff2") format("woff2"),
+    url("../Assets/fonts/woff/TitilliumWeb-SemiBold.woff") format("woff"),
+    url("../Assets/fonts/ttf/TitilliumWeb-SemiBold.ttf") format("ttf");
 }
 
 img {
